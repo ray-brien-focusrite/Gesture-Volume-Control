@@ -1,5 +1,5 @@
 opencv-python
 mediapipe
-comtypes
 numpy
-pycaw
+comtypes; platform_system == "Windows"
+pycaw; platform_system == "Windows"
