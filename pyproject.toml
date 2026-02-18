@@ -10,4 +10,5 @@ dependencies = [
     "numpy",
     "comtypes; platform_system == 'Windows'",
     "pycaw; platform_system == 'Windows'",
+    "sounddevice>=0.5.5",
 ]

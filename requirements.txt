@@ -1,5 +1,6 @@
 opencv-python
 mediapipe
 numpy
+sounddevice
 comtypes; platform_system == "Windows"
 pycaw; platform_system == "Windows"

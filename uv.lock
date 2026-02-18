@@ -138,6 +138,7 @@ dependencies = [
     { name = "numpy" },
     { name = "opencv-python" },
     { name = "pycaw", marker = "sys_platform == 'win32'" },
+    { name = "sounddevice" },
 ]
 
 [package.metadata]
@@ -147,6 +148,7 @@ requires-dist = [
     { name = "numpy" },
     { name = "opencv-python" },
     { name = "pycaw", marker = "sys_platform == 'win32'" },
+    { name = "sounddevice", specifier = ">=0.5.5" },
 ]
 
 [[package]]
