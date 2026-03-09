@@ -2,7 +2,6 @@ import cv2
 import mediapipe as mp
 import math
 import numpy as np
-import subprocess
 
 from freq import SineWavePlayer
 from model import Options, Model
@@ -10,13 +9,6 @@ from model import Options, Model
 from vol import MIN_VOL, MAX_VOL
 from webcam import Webcam
 from device import AudioDevice
-
-
-# def audio_callback(indata, outdata, frames, time, status):
-#     if status:
-#         print(status)
-#     outdata[:] = indata
-#
 
 
 def start(show: bool = True, sine: bool = True, audio_interface: bool = True):
@@ -56,8 +48,8 @@ def start(show: bool = True, sine: bool = True, audio_interface: bool = True):
 
                 # Assigning variables for Thumb and Index finger position
                 if len(lmList) != 0:
-                    x1, y1 = lmList[4][1], lmList[4][2]
-                    x2, y2 = lmList[8][1], lmList[8][2]
+                    x1, y1 = lmList[4][1], lmList[4][2]  # thumb tips
+                    x2, y2 = lmList[8][1], lmList[8][2]  # index finger tip
 
                     length = math.hypot(x2 - x1, y2 - y1)
 
@@ -84,7 +76,7 @@ def start(show: bool = True, sine: bool = True, audio_interface: bool = True):
                         cv2.putText(
                             image,
                             # f"{int(volPer)} %
-                            "vol value: {int(vol)} ",
+                            f"vol value: {int(vol)} ",
                             (40, 450),
                             cv2.FONT_HERSHEY_COMPLEX,
                             1,
