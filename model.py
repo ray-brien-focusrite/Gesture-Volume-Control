@@ -30,12 +30,14 @@ def ensure_model(path: str = MODEL_PATH) -> str:
 
 
 class Model:
-    def __init__(self):
+    def __init__(self, num_hands: int = 1):
         self.model = ensure_model()
+        self.num_hands = num_hands
         self.options = Options.HandLandmarkerOptions(
             base_options=Options.BaseOptions(model_asset_path=model_path),
-            running_mode=Options.VisionRunningMode.IMAGE,
-            num_hands=1,
+            running_mode=Options.VisionRunningMode.IMAGE,  # TODO: try LIVE_STREAM
+            num_hands=self.num_hands,
+            # result_callback=  # TODO: live stream version
         )
 
 
