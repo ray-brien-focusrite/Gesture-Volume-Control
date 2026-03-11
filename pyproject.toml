@@ -1,14 +1,27 @@
 [project]
 name = "gesture-volume-control"
 version = "0.1.0"
-description = "Add your description here"
+description = "An exploration of controlling a Focusrite Scarlett device using adapy and gestures mapped using openCV"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
-    "opencv-python",
-    "mediapipe",
-    "numpy",
-    "comtypes; platform_system == 'Windows'",
-    "pycaw; platform_system == 'Windows'",
-    "sounddevice>=0.5.5",
+  "opencv-python",
+  "mediapipe",
+  "numpy",
+  "comtypes; platform_system == 'Windows'",
+  "pycaw; platform_system == 'Windows'",
+  "sounddevice>=0.5.5",
+  "adapy",
 ]
+
+# [project.optional-dependencies]
+# device-control = ["adapy"]
+#
+# [tool.uv]
+# default-groups = ["device-control"]
+#
+# [dependency-groups]
+# device-control = { device-control }
+#
+[tool.uv.sources]
+adapy = { path = "/Users/ray.brien/Documents/focusrite-apps-local/focusrite-native/projects/adapy", editable = true }

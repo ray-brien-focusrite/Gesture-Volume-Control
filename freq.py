@@ -29,6 +29,7 @@ class SineWavePlayer:
             dtype="float32",
             callback=self._callback,
         )
+        self.stream_out
 
     def _callback(self, outdata, frames, time, status):
         if status:

@@ -1,4 +1,5 @@
 import cv2
+import device_control
 import mediapipe as mp
 import math
 import numpy as np
@@ -9,23 +10,32 @@ from model import Options, Model
 from vol import MIN_VOL, MAX_VOL
 from webcam import Webcam
 from device import AudioDevice
+from device_control import VisionVolumeController
 
 
-def start(show: bool = True, sine: bool = True, audio_interface: bool = True):
+def main(
+    show: bool = True,
+    sine: bool = False,
+    audio_interface: bool = True,
+):
     model = Model()
     cam = Webcam()
 
     # prep interface first
     if audio_interface:
         d = AudioDevice()
-        d.setup()
+        controller = VisionVolumeController(d)
+        controller.start()
+
+        def device_callback(numpy_frame: np.ndarray):
+            controller.push(numpy_frame)
 
     # test tone
     tone = SineWavePlayer() if sine else None
     if tone:
         tone.start()
 
-    # camera data stream
+    # camera data stream  # TODO: port to function
     try:
         # Mediapipe Hand Landmarker Model
         with Options.HandLandmarker.create_from_options(model.options) as landmarker:
@@ -58,6 +68,8 @@ def start(show: bool = True, sine: bool = True, audio_interface: bool = True):
                     # TODO: where do 50, 220 values come from ^^ ?
                     if tone:
                         tone.set_vol_per(volPer)
+                    elif audio_interface:
+                        device_callback(vol)
 
                     if show:
                         # Marking Thumb and Index finger
@@ -88,16 +100,28 @@ def start(show: bool = True, sine: bool = True, audio_interface: bool = True):
                 else:
                     continue
                 # change output vol
-                # set_system_volume(vol, volPer)
+                # if not audio_interface:
+                #     set_system_volume(vol, volPer)
 
                 if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
     finally:
-        cam.cam.release()
+        try:
+            cam.cam.release()
+            print("Camera released")
+
+            if audio_interface and controller:
+                controller.stop()
+
+        except RuntimeError as e:
+            raise RuntimeError(
+                "Camera failed to be released, please check or unplug"
+            ) from e
         if tone:
             tone.stop()
         cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
-    start(show=True, sine=True, audio_interface=False)
+    # main(show=True, sine=True, audio_interface=True)
+    main(show=True, audio_interface=True)

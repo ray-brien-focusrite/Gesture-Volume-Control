@@ -23,7 +23,7 @@ class VisionVolumeController:
     def __init__(
         self,
         device: adapy.Ada.Device,
-        db_min: float = -60.0,  # silence threshold — adjust to taste
+        db_min: float = -1000.0,  # silence threshold — adjust to taste
         db_max: float = 0.0,  # maximum output level
         data_min: float = 0.0,  # expected minimum of your CV scalar
         data_max: float = 1.0,  # expected maximum of your CV scalar
